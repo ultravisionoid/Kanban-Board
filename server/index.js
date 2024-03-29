@@ -40,7 +40,7 @@ app.post("/user/login", (req, res) => {
   var creds = _.pick(req.body, ["email", "password"]);
   User.findByCred(creds.email, creds.password)
     .then((user) => {
-      console.log(user);
+      // console.log(user);
       return user.generateToken().then((token) => {
         return res.header("auth", token).send(user).status(200);
       });
@@ -49,5 +49,5 @@ app.post("/user/login", (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log("Server is started");
+  console.log("Server is started on 3000");
 });

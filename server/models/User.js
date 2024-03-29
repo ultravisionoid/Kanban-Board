@@ -39,12 +39,12 @@ UserSchema.statics.findByCred = function (email, pass) {
     if (!user) {
       return Promise.reject();
     }
-    return new Promise((res, rej) => {
+    return new Promise((resolve, rej) => {
       bcrypt.compare(pass, user.password, (err, res) => {
         if (res) {
           resolve(user);
         } else {
-          reject();
+          rej();
         }
       });
     });
@@ -57,7 +57,7 @@ UserSchema.methods.generateToken = function () {
   var token = jwt.sign({ _id: this._id, access }, JWT_Token).toString();
   // user.token = concat([{ access, token }]);
   user.token = token;
-  // console.log(token);
+  console.log(token);
   // console.log(user);
   return user.save().then(() => {
     return token;

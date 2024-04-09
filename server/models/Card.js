@@ -8,7 +8,7 @@ const CardSchema = new mongoose.Schema({
     type: String,
   },
   dueDate: {
-    type: String,
+    type: Date,
   },
   assignedTo: {
     type: mongoose.Schema.Types.ObjectId,

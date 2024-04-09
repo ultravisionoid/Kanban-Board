@@ -5,6 +5,7 @@ const { User } = require("./models/User");
 const { auth } = require("./middleware/auth");
 const app = express();
 const _ = require("lodash");
+const { Card } = require("./models/Card");
 app.use(cors());
 app.use(express.json());
 
@@ -46,6 +47,51 @@ app.post("/user/login", (req, res) => {
       });
     })
     .catch((e) => res.status(400).send(e));
+});
+
+app.post("/card/create", auth, (req, res, next) => {
+  var card = new Card({
+    title: req.body.title,
+    description: req.body.description,
+    dueDate: req.body.dueDate || "",
+  });
+  card.assignedTo = req.user;
+  Card.create(card)
+    .then((response) => {
+      res.header("auth", req.user.token);
+      res.status(200).send(card);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+      console.log(err);
+    });
+});
+app.get("/cards", (req, res) => {
+  Card.find()
+    .then((result) => res.status(200).send(result))
+    .catch((err) => {
+      res.status(404).send(err);
+      console.log(err);
+    });
+});
+
+app.get("/card/user", auth, (req, res) => {
+  token = req.user.token;
+  User.findByToken(token)
+    .then((user) => {
+      Card.find({ assignedTo: user })
+        .then((r) => {
+          res.status(200).send(r);
+        })
+        .catch((err) => {
+          res.status(404).send(err);
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(404).send(err);
+    });
 });
 
 app.listen(3000, () => {

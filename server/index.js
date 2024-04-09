@@ -115,7 +115,26 @@ app.put("/cards/:id", async (req, res) => {
       res.status(404).send(e);
     });
 });
-
+app.delete("/card/:id", async (req, res) => {
+  const { id } = req.params;
+  Card.findById(id)
+    .then((id) => {
+      if (!id) {
+        res.status(404).send(new Error("User not found"));
+      }
+    })
+    .catch((err) => {
+      res.status(501).send(err);
+    });
+  await Card.findByIdAndDelete(id)
+    .then((r) => {
+      res.status(200).send(r);
+    })
+    .catch((e) => {
+      console.log(e);
+      res.status(404).send(e);
+    });
+});
 app.listen(3000, () => {
   console.log("Server is started on 3000");
 });

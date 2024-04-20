@@ -6,6 +6,7 @@ const { auth } = require("./middleware/auth");
 const app = express();
 const _ = require("lodash");
 const { Card } = require("./models/Card");
+const { Comment } = require("./models/Comment");
 app.use(cors());
 app.use(express.json());
 
@@ -93,7 +94,7 @@ app.get("/card/user", auth, (req, res) => {
       res.status(404).send(err);
     });
 });
-app.put("/cards/:id", async (req, res) => {
+app.put("/cards/:id", auth, async (req, res) => {
   const { id } = req.params;
   const update = req.body;
 
@@ -115,7 +116,7 @@ app.put("/cards/:id", async (req, res) => {
       res.status(404).send(e);
     });
 });
-app.delete("/card/:id", async (req, res) => {
+app.delete("/card/:id", auth, async (req, res) => {
   const { id } = req.params;
   Card.findById(id)
     .then((id) => {
@@ -135,6 +136,44 @@ app.delete("/card/:id", async (req, res) => {
       res.status(404).send(e);
     });
 });
+app.post("/comment", auth, (req, res) => {
+  var comment = new Comment({
+    content: req.body.content,
+    author: req.user,
+    card: req.body.card,
+  });
+
+  Comment.create(comment)
+    .then((r) => {
+      res.header("auth", req.user.token);
+      res.status(200).send(comment);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(404).send(err);
+    });
+});
+
+app.get("/comment/:id", auth, (req, res) => {
+  var { id } = req.params;
+  Card.findById(id)
+    .then((r) => {
+      if (!r) {
+        res.status(404).send(new Error("user not found"));
+      }
+      Comment.find({ card: id })
+        .then((comm) => {
+          res.status(200).send(comm);
+        })
+        .catch((e) => {
+          res.status(404).send(e);
+        });
+    })
+    .catch((err) => {
+      res.status(404).send(err);
+    });
+});
+
 app.listen(3000, () => {
   console.log("Server is started on 3000");
 });

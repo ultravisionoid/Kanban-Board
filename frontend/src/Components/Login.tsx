@@ -1,11 +1,5 @@
 import React, { ChangeEvent, HTMLInputTypeAttribute, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import { Route, Link, Routes, Navigate } from "react-router-dom";
 function Login({ onlogin }: any) {
   let [credentials, setCredetials] = useState({
     email: "",
@@ -52,9 +46,6 @@ function Login({ onlogin }: any) {
           Login
         </button>
       </form>
-
-      <Link to="/">Home</Link>
-      <Link to="login">Login</Link>
     </div>
   );
 }

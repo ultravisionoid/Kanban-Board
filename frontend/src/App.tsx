@@ -19,19 +19,20 @@ function App() {
   return (
     <>
       <h3>Kanban board</h3>
-      <Header></Header>
+
       <Router>
+        <Header></Header>
         {/* <Link to="/">Home</Link>
         <Link to="login">Login</Link> */}
         <Routes>
-          <Route path="/" element={<div>Aloo</div>}></Route>
+          <Route path="/" element={<div>Home Page</div>}></Route>
           <Route
             path="/login"
             element={<Login onlogin={handleLogin}></Login>}
           ></Route>
         </Routes>
+        <Footer></Footer>
       </Router>
-      <Footer></Footer>
     </>
   );
 }

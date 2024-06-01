@@ -73,7 +73,7 @@ UserSchema.statics.findByToken = function (token) {
     return Promise.reject();
   }
 
-  console.log(token);
+  // console.log(token);
   return this.findOne({ _id: decoded._id, token: token });
 };
 UserSchema.pre("save", async function (next) {

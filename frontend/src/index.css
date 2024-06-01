@@ -6,7 +6,11 @@
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
+.login-container h2 {
+  text-align: center;
+  font: 1em sans-serif;
+  font-weight: bold;
+}
 .form-group {
   margin-bottom: 20px;
 }
@@ -19,7 +23,7 @@
   box-sizing: border-box;
 }
 
-.btn {
+.btnl {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -28,6 +32,18 @@
   cursor: pointer;
 }
 
-.btn:hover {
+.btnl:hover {
   background-color: #0056b3;
+}
+
+.not-found-container img {
+  position: fixed;
+  z-index: -1;
+  object-fit: cover;
+  height: 90%;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
 }

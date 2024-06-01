@@ -40,6 +40,7 @@ app.post("/auth", auth, (req, res, next) => {
 
 app.post("/user/login", (req, res) => {
   var creds = _.pick(req.body, ["email", "password"]);
+  // console.log(creds);
   User.findByCred(creds.email, creds.password)
     .then((user) => {
       // console.log(user);
@@ -47,7 +48,7 @@ app.post("/user/login", (req, res) => {
         return res.header("auth", token).send(user).status(200);
       });
     })
-    .catch((e) => res.status(400).send(e));
+    .catch((e) => res.status(404).send("User not found"));
 });
 
 app.post("/card/create", auth, (req, res, next) => {

@@ -34,6 +34,7 @@ function Header({ onlogout }: any) {
       {/* <Router> */}
       <Link to="/">Home</Link>
       {!token && <Link to="login">Login</Link>}
+      {!!token && <Link to="/createTask">Create Task</Link>}
       {!!token && (
         <Link to="/" onClick={handleLogout}>
           Logout

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { ChangeEvent, HTMLInputTypeAttribute, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Route, Link, Routes, Navigate, useNavigate } from "react-router-dom";
 import "../index.css";
 function Login({ onlogin }: any) {
@@ -7,6 +7,8 @@ function Login({ onlogin }: any) {
     email: "",
     password: "",
   });
+
+  let [showPass, setshowPass] = useState(false);
   let [toggle, setToggle] = useState(false);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     // const { name, value }= e.target as HTMLInputElement;
@@ -16,6 +18,9 @@ function Login({ onlogin }: any) {
   };
 
   const navigate = useNavigate();
+  function toggleShowPassword() {
+    setshowPass(!showPass);
+  }
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     // console.log(credentials);
@@ -65,12 +70,19 @@ function Login({ onlogin }: any) {
             <label>Password:</label>
             <input
               className="form-control"
-              type="password"
+              type={!showPass ? "password" : "text"}
               name="password"
               value={credentials.password}
               onChange={handleChange}
               required
             />
+            <button
+              type="button"
+              className="toggle-password"
+              onClick={toggleShowPassword}
+            >
+              {showPass ? "🙈" : "👁️"}
+            </button>
           </div>
           <br />
           <button type="submit" className="btnl">
